@@ -71,6 +71,35 @@
   body.dark .muted{color:#a9bdae;}
   body.dark .line{border-color:#1d3a2a !important;}
 
+    /* Custom cursor - glow only, no ring */
+  @media (hover:hover) and (pointer:fine){
+    body{cursor:none;}
+    a, button, .magnetic, input, textarea, select, .card, .faq-q{cursor:none;}
+  }
+  .cursor-dot{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:10000;
+    transform:translate(-50%,-50%); will-change:transform;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--gold-500);
+    box-shadow:0 0 8px 2px rgba(201,162,74,0.9),
+               0 0 18px 6px rgba(201,162,74,0.5),
+               0 0 32px 12px rgba(201,162,74,0.25);
+    transition:opacity .2s ease, background .3s ease, box-shadow .25s ease, width .25s ease, height .25s ease;
+  }
+  .cursor-dot.hovering{
+    width:14px; height:14px;
+    background:var(--gold-400);
+    box-shadow:0 0 12px 3px rgba(201,162,74,1),
+               0 0 26px 10px rgba(201,162,74,0.6),
+               0 0 46px 16px rgba(201,162,74,0.3);
+  }
+  .cursor-dot.clicking{ width:7px; height:7px; }
+  body.dark .cursor-dot{ background:var(--gold-400); }
+  @media (max-width: 900px){
+    .cursor-dot{ display:none; }
+    body, a, button{ cursor:auto !important; }
+  }
+
   /* Scroll progress */
   #scroll-progress{
     position:fixed; top:0; left:0; height:3px; width:0%;
@@ -396,8 +425,29 @@
   .send-btn{
     position:relative; overflow:hidden; width:100%; padding:16px; border-radius:12px; border:none; cursor:pointer;
     background:linear-gradient(135deg,var(--green-700),var(--green-950)); color:#fff; font-weight:700; font-size:0.95rem;
+    transition:box-shadow .3s ease, background .3s ease;
   }
   .send-btn:active{transform:scale(0.98);}
+  .send-btn.glow-yellow{
+    box-shadow:0 0 18px 4px rgba(250,204,21,0.75), 0 0 40px 8px rgba(250,204,21,0.35);
+  }
+  .send-btn.glow-green{
+    box-shadow:0 0 18px 4px rgba(34,197,94,0.75), 0 0 40px 8px rgba(34,197,94,0.35);
+  }
+  .send-btn.glow-red{
+    box-shadow:0 0 18px 4px rgba(239,68,68,0.8), 0 0 40px 8px rgba(239,68,68,0.4);
+    animation:shakeGlow .4s ease;
+  }
+  @keyframes shakeGlow{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}
+    60%{transform:translateX(-4px);}
+    80%{transform:translateX(4px);}
+  }
+  .field.field-error input, .field.field-error textarea{
+    border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,0.15);
+  }
   .contact-info-card{
     background:linear-gradient(160deg, var(--green-950), var(--green-800)); border-radius:24px; padding:36px; color:#fff;
     height:100%;
@@ -486,6 +536,7 @@
 })();
 </script>
 <div id="scroll-progress"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
 
 <nav class="navbar" id="navbar">
 <div class="brand">
@@ -506,7 +557,7 @@
 <div class="nav-actions">
 <button class="icon-btn" id="search-open" title="Search">🔍</button>
 <button class="icon-btn" id="dark-toggle" title="Toggle dark mode">🌙</button>
-<a class="btn-primary confetti-btn" id="apply-btn" href="contact.html" style="display:inline-flex; align-items:center;">Apply Now</a>
+<a class="apply-glow btn-primary confetti-btn" id="apply-btn" href="contact.html" style="display:inline-flex; align-items:center;">Apply Now</a>
 <button class="burger" id="burger">☰</button>
 </div>
 </nav>
@@ -536,20 +587,20 @@
 <div class="contact-grid">
 <form id="contact-form" onsubmit="return false;">
 <div class="field">
-<input placeholder=" " required="" type="text"/>
+<input id="cf-fullname" placeholder=" " required="" type="text"/>
 <label>Full Name</label>
 </div>
 <div class="field">
-<input placeholder=" " required="" type="email"/>
+<input id="cf-email" placeholder=" " required="" type="email"/>
 <label>Email Address</label>
 </div>
 <div class="field">
-<input placeholder=" " type="text"/>
+<input id="cf-subject" placeholder=" " required="" type="text"/>
 <label>Subject</label>
 </div>
 <div class="field">
-<textarea placeholder=" " rows="5"></textarea>
-<label>Message</label>
+<textarea id="cf-message" placeholder=" " rows="5"></textarea>
+<label>Message (optional)</label>
 </div>
 <button class="send-btn" id="send-btn" type="submit">Send Message</button>
 </form>
@@ -647,6 +698,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Custom cursor: single glowing dot, no ring
+  const cDot = document.getElementById('cursor-dot');
+  if (cDot && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    window.addEventListener('mousemove', (e)=>{
+      cDot.style.left = e.clientX+'px'; cDot.style.top = e.clientY+'px';
+    });
+    document.addEventListener('mousedown', ()=>cDot.classList.add('clicking'));
+    document.addEventListener('mouseup', ()=>cDot.classList.remove('clicking'));
+    const hoverTargets = 'a, button, .magnetic, input, textarea, select, .card, .faq-q';
+    document.addEventListener('mouseover', (e)=>{
+      if (e.target.closest(hoverTargets)) cDot.classList.add('hovering');
+    });
+    document.addEventListener('mouseout', (e)=>{
+      if (e.target.closest(hoverTargets)) cDot.classList.remove('hovering');
+    });
+    document.addEventListener('mouseleave', ()=>{ cDot.style.opacity='0'; });
+    document.addEventListener('mouseenter', ()=>{ cDot.style.opacity='1'; });
+  }
+
+
   AOS.init({duration:700, once:true, offset:60});
 
   // Apply saved theme
@@ -812,15 +883,72 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e)=>{ confettiBurst(e.clientX, e.clientY); });
   });
 
-  // Contact form submit feedback (contact page only)
+  // Contact form submit feedback + glow states (contact page only)
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
+    const sendBtn = document.getElementById('send-btn');
+    const fName = document.getElementById('cf-fullname');
+    const fEmail = document.getElementById('cf-email');
+    const fSubject = document.getElementById('cf-subject');
+    const fMessage = document.getElementById('cf-message'); // optional, not required
+
+    function isFormComplete(){
+      return fName.value.trim() !== '' &&
+             fEmail.value.trim() !== '' &&
+             fSubject.value.trim() !== '';
+    }
+    function clearGlow(){
+      sendBtn.classList.remove('glow-yellow','glow-green','glow-red');
+    }
+    function updateGlow(){
+      clearGlow();
+      sendBtn.classList.add(isFormComplete() ? 'glow-green' : 'glow-yellow');
+    }
+    function clearFieldErrors(){
+      [fName, fEmail, fSubject].forEach(el=>el.closest('.field').classList.remove('field-error'));
+    }
+
+    // Yellow glow the moment the cursor/touch reaches the button
+    sendBtn.addEventListener('mouseenter', updateGlow);
+    sendBtn.addEventListener('touchstart', updateGlow, {passive:true});
+    sendBtn.addEventListener('focus', updateGlow);
+
+    // Re-check completeness live as user types
+    [fName, fEmail, fSubject, fMessage].forEach(el=>{
+      el.addEventListener('input', ()=>{
+        if (sendBtn.matches(':hover') || sendBtn.classList.contains('glow-yellow') || sendBtn.classList.contains('glow-green')) {
+          updateGlow();
+        }
+        el.closest('.field').classList.remove('field-error');
+      });
+    });
+
+    sendBtn.addEventListener('mouseleave', ()=>{
+      if (!sendBtn.classList.contains('glow-red')) clearGlow();
+    });
+
     contactForm.addEventListener('submit', function(){
-      const btn = document.getElementById('send-btn');
+      clearGlow();
+      clearFieldErrors();
+      if (!isFormComplete()) {
+        sendBtn.classList.add('glow-red');
+        [fName, fEmail, fSubject].forEach(el=>{
+          if (el.value.trim() === '') el.closest('.field').classList.add('field-error');
+        });
+        setTimeout(()=>{ sendBtn.classList.remove('glow-red'); }, 1200);
+        return;
+      }
+      sendBtn.classList.add('glow-green');
+      const btn = sendBtn;
       const original = btn.textContent;
       btn.textContent = 'Message Sent ✓';
       btn.style.background = 'linear-gradient(135deg,#1a7d4a,#0f5230)';
-      setTimeout(()=>{ btn.textContent = original; this.reset(); }, 2400);
+      setTimeout(()=>{
+        btn.textContent = original;
+        btn.style.background = '';
+        clearGlow();
+        this.reset();
+      }, 2400);
     });
   }
 });

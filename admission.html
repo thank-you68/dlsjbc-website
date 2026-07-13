@@ -71,6 +71,35 @@
   body.dark .muted{color:#a9bdae;}
   body.dark .line{border-color:#1d3a2a !important;}
 
+    /* Custom cursor - glow only, no ring */
+  @media (hover:hover) and (pointer:fine){
+    body{cursor:none;}
+    a, button, .magnetic, input, textarea, select, .card, .faq-q{cursor:none;}
+  }
+  .cursor-dot{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:10000;
+    transform:translate(-50%,-50%); will-change:transform;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--gold-500);
+    box-shadow:0 0 8px 2px rgba(201,162,74,0.9),
+               0 0 18px 6px rgba(201,162,74,0.5),
+               0 0 32px 12px rgba(201,162,74,0.25);
+    transition:opacity .2s ease, background .3s ease, box-shadow .25s ease, width .25s ease, height .25s ease;
+  }
+  .cursor-dot.hovering{
+    width:14px; height:14px;
+    background:var(--gold-400);
+    box-shadow:0 0 12px 3px rgba(201,162,74,1),
+               0 0 26px 10px rgba(201,162,74,0.6),
+               0 0 46px 16px rgba(201,162,74,0.3);
+  }
+  .cursor-dot.clicking{ width:7px; height:7px; }
+  body.dark .cursor-dot{ background:var(--gold-400); }
+  @media (max-width: 900px){
+    .cursor-dot{ display:none; }
+    body, a, button{ cursor:auto !important; }
+  }
+
   /* Scroll progress */
   #scroll-progress{
     position:fixed; top:0; left:0; height:3px; width:0%;
@@ -476,6 +505,7 @@
 })();
 </script>
 <div id="scroll-progress"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
 
 <nav class="navbar" id="navbar">
 <div class="brand">
@@ -496,7 +526,7 @@
 <div class="nav-actions">
 <button class="icon-btn" id="search-open" title="Search">🔍</button>
 <button class="icon-btn" id="dark-toggle" title="Toggle dark mode">🌙</button>
-<a class="btn-primary confetti-btn" id="apply-btn" href="contact.html" style="display:inline-flex; align-items:center;">Apply Now</a>
+<a class="apply-glow btn-primary confetti-btn" id="apply-btn" href="contact.html" style="display:inline-flex; align-items:center;">Apply Now</a>
 <button class="burger" id="burger">☰</button>
 </div>
 </nav>
@@ -632,6 +662,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Custom cursor: single glowing dot, no ring
+  const cDot = document.getElementById('cursor-dot');
+  if (cDot && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    window.addEventListener('mousemove', (e)=>{
+      cDot.style.left = e.clientX+'px'; cDot.style.top = e.clientY+'px';
+    });
+    document.addEventListener('mousedown', ()=>cDot.classList.add('clicking'));
+    document.addEventListener('mouseup', ()=>cDot.classList.remove('clicking'));
+    const hoverTargets = 'a, button, .magnetic, input, textarea, select, .card, .faq-q';
+    document.addEventListener('mouseover', (e)=>{
+      if (e.target.closest(hoverTargets)) cDot.classList.add('hovering');
+    });
+    document.addEventListener('mouseout', (e)=>{
+      if (e.target.closest(hoverTargets)) cDot.classList.remove('hovering');
+    });
+    document.addEventListener('mouseleave', ()=>{ cDot.style.opacity='0'; });
+    document.addEventListener('mouseenter', ()=>{ cDot.style.opacity='1'; });
+  }
+
+
   AOS.init({duration:700, once:true, offset:60});
 
   // Apply saved theme

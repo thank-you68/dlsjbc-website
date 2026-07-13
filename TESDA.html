@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DLSJBC Green Hawks clinch regional basketball title | DLSJBC</title>
-<meta property="og:image" content="dlsjbc.jpg">
-<meta name="description" content="Latest news, updates, and events at DLSJBC.">
+<title>TESDA Diploma Programs | DLSJBC</title>
+<meta name="description" content="TESDA diploma programs offered at DLSJBC.">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,12 +37,7 @@
   body{
     margin:0;
     font-family:'Inter',sans-serif;
-    background:
-      linear-gradient(180deg, rgba(250,248,242,0.94), rgba(250,248,242,0.94)),
-      url('dlsjbc.jpg');
-    background-attachment:fixed;
-    background-size:cover;
-    background-position:center;
+    background:var(--cream-50);
     color:var(--ink-900);
     overflow-x:hidden;
     transition:background .4s ease, color .4s ease;
@@ -66,12 +60,7 @@
 
   /* Dark mode */
   body.dark{
-    background:
-      linear-gradient(180deg, rgba(8,23,18,0.94), rgba(8,23,18,0.94)),
-      url('dlsjbc.jpg');
-    background-attachment:fixed;
-    background-size:cover;
-    background-position:center;
+    background:#081712;
     color:#eef3ee;
   }
   body.dark .surface{background:#0f2419; border-color:#1d3a2a;}
@@ -265,12 +254,13 @@
   .card p{font-size:0.92rem; color:var(--ink-600); line-height:1.6; margin:0;}
 
   /* Academics */
-  .prog-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  .prog-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; align-items:start;}
   @media(max-width:980px){.prog-grid{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:560px){.prog-grid{grid-template-columns:1fr;}}
   .prog-card{
     border-radius:var(--radius); padding:30px 24px; background:#fff; border:1px solid var(--line);
     position:relative; overflow:hidden; cursor:pointer; transition:transform .4s ease;
+    display:block;
   }
   .prog-card::before{
     content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--green-700),var(--green-950));
@@ -290,6 +280,23 @@
   .prog-card p{color:var(--ink-600); font-size:0.88rem; line-height:1.55; transition:color .4s ease;}
   .prog-card:hover p{color:#d8e8dd;}
   .prog-link{display:inline-flex; align-items:center; gap:6px; margin-top:16px; font-size:0.82rem; font-weight:700; color:var(--gold-500);}
+  .prog-tag{
+    font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--gold-500); margin-bottom:14px !important; transition:color .4s ease;
+  }
+  .prog-card:hover .prog-tag{color:var(--gold-300);}
+  .prog-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .prog-list li{
+    position:relative; padding-left:18px; font-size:0.86rem; line-height:1.4;
+    color:var(--ink-600); transition:color .4s ease;
+  }
+  .prog-list li::before{
+    content:''; position:absolute; left:0; top:6px; width:7px; height:7px; border-radius:50%;
+    background:var(--gold-500); transition:background .4s ease;
+  }
+  .prog-card:hover .prog-list li{color:#d8e8dd;}
+  .prog-card:hover .prog-list li::before{background:var(--gold-300);}
+  body.dark .prog-list li{color:#a9bdae;}
 
   /* stats */
   .stats-wrap{
@@ -307,20 +314,74 @@
   }
   @media(max-width:780px){.gallery-grid{grid-template-columns:repeat(2,1fr);}}
   .g-item{
-    border-radius:16px; position:relative; overflow:hidden; cursor:pointer;
+    border-radius:16px; position:relative; overflow:hidden; cursor:zoom-in;
     display:flex; align-items:flex-end; padding:16px; color:#fff;
   }
   .g-item span{position:relative; z-index:2; font-weight:700; font-size:0.9rem; transform:translateY(10px); opacity:0; transition:all .35s ease;}
   .g-item::after{content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(7,39,26,0.85), transparent 60%); opacity:0; transition:opacity .35s ease;}
   .g-item:hover::after, .g-item:hover span{opacity:1; transform:translateY(0);}
   .g-item img, .g-item .fill{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .g-item img{z-index:0;}
   .g-item:hover img, .g-item:hover .fill{transform:scale(1.1);}
+  .g-item .zoom-hint{
+    position:absolute; top:12px; right:12px; z-index:3; width:34px; height:34px; border-radius:50%;
+    background:rgba(7,39,26,0.55); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center;
+    font-size:0.95rem; opacity:0; transform:scale(0.8); transition:all .3s ease; pointer-events:none;
+  }
+  .g-item:hover .zoom-hint{opacity:1; transform:scale(1);}
   .g1{grid-column:span 2; grid-row:span 2;}
   .g2{grid-column:span 1; grid-row:span 1;}
   .g3{grid-column:span 1; grid-row:span 2;}
   .g4{grid-column:span 2; grid-row:span 1;}
   .g5{grid-column:span 1; grid-row:span 1;}
   .g6{grid-column:span 1; grid-row:span 1;}
+
+  /* gallery lightbox */
+  #lightbox{
+    position:fixed; inset:0; z-index:2000; background:rgba(4,16,10,0.94);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; transition:opacity .35s ease, visibility .35s ease;
+  }
+  #lightbox.open{opacity:1; visibility:visible;}
+  .lightbox-stage{
+    position:relative; width:min(90vw,1100px); height:min(80vh,720px);
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+    border-radius:20px;
+  }
+  .lightbox-media{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    cursor:zoom-in; transform:scale(1); transform-origin:center center;
+    transition:transform .25s ease, opacity .3s ease;
+    opacity:0;
+  }
+  .lightbox-media.show{opacity:1;}
+  .lightbox-media.zoomed{cursor:zoom-out;}
+  .lightbox-caption{
+    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:26px 30px;
+    background:linear-gradient(0deg, rgba(4,16,10,0.85), transparent);
+    color:#fff; font-weight:700; font-size:1.05rem; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .lightbox-caption .hint{font-weight:500; font-size:0.78rem; color:var(--gold-300); opacity:0.85;}
+  .lightbox-close, .lightbox-nav{
+    position:absolute; z-index:5; width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06); color:#fff; font-size:1.2rem; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .25s ease; backdrop-filter:blur(6px);
+  }
+  .lightbox-close:hover, .lightbox-nav:hover{background:var(--gold-500); color:var(--green-950); border-color:var(--gold-500); transform:translateY(-2px);}
+  .lightbox-close{top:-56px; right:0;}
+  @media(max-width:780px){.lightbox-close{top:14px; right:14px;}}
+  .lightbox-nav{top:50%; transform:translateY(-50%);}
+  .lightbox-nav:hover{transform:translateY(-50%) translateY(-2px);}
+  .lightbox-prev{left:-64px;}
+  .lightbox-next{right:-64px;}
+  @media(max-width:1100px){
+    .lightbox-prev{left:10px;}
+    .lightbox-next{right:10px;}
+  }
+  .lightbox-counter{
+    position:absolute; top:-56px; left:0; z-index:5; color:var(--gold-300); font-size:0.85rem; font-weight:700; letter-spacing:0.05em;
+  }
+  @media(max-width:780px){.lightbox-counter{top:14px; left:14px;}}
 
   /* articles */
   .article-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
@@ -347,17 +408,14 @@
     transition:transform .35s ease, box-shadow .35s ease;
   }
   .news-card:hover{transform:translateY(-8px); box-shadow:0 20px 44px -16px rgba(11,61,36,0.3); border-color:var(--gold-400);}
-  .news-thumb{height:180px; background:linear-gradient(135deg,var(--green-700),var(--green-950)); position:relative; overflow:hidden;}
-  .news-thumb a{display:block; width:100%; height:100%; cursor:pointer;}
-  .news-thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
-  .news-thumb:hover img{transform:scale(1.12);}
+  .news-thumb{height:180px; background:linear-gradient(135deg,var(--green-700),var(--green-950)); position:relative;}
   .news-tag{position:absolute; top:14px; left:14px; background:var(--gold-500); color:var(--green-950); font-size:0.7rem; font-weight:700; padding:5px 12px; border-radius:999px; text-transform:uppercase; letter-spacing:0.05em;}
   .news-body{padding:24px;}
   .news-date{font-size:0.78rem; color:var(--gold-500); font-weight:700; letter-spacing:0.05em;}
   .news-body h3{margin:10px 0 10px; font-size:1.08rem; color:var(--green-950); line-height:1.35;}
   body.dark .news-body h3{color:#eef3ee;}
   .news-body p{color:var(--ink-600); font-size:0.88rem; line-height:1.55; margin:0 0 16px;}
-  .news-read{font-size:0.85rem; font-weight:700; color:var(--green-800); display:inline-flex; align-items:center; gap:6px; cursor:pointer;}
+  .news-read{font-size:0.85rem; font-weight:700; color:var(--green-800); display:inline-flex; align-items:center; gap:6px;}
   body.dark .news-read{color:var(--gold-400);}
 
   /* timeline */
@@ -508,67 +566,9 @@
   body.dark .nav-links a.active-link{color:#fff;}
   #mobile-menu a.active-link{color:var(--gold-400);}
 
-
-  /* Single article page */
-  .article-header{
-    position:relative; padding:170px 0 70px; text-align:center; overflow:hidden;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,162,74,0.22), transparent 60%),
-      linear-gradient(180deg, rgba(7,39,26,0.88) 0%, rgba(11,61,36,0.85) 55%, rgba(15,82,48,0.82) 100%),
-      url('dlsjbc.jpg');
-    background-size:cover; background-position:center;
-  }
-  .article-header .container{position:relative; z-index:2;}
-  .article-back{
-    display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:0.85rem;
-    color:var(--gold-300); margin-bottom:26px; opacity:0.9; transition:opacity .25s ease;
-  }
-  .article-back:hover{opacity:1;}
-  .article-tag{
-    display:inline-block; background:var(--gold-500); color:var(--green-950); font-size:0.72rem; font-weight:700;
-    padding:6px 16px; border-radius:999px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:20px;
-  }
-  .article-title{
-    font-size:2.4rem; line-height:1.3; margin:0 auto 18px; max-width:780px; color:#fff;
-  }
-  @media(max-width:640px){.article-title{font-size:1.65rem;}}
-  .article-date{font-size:0.85rem; color:var(--gold-300); font-weight:700; letter-spacing:0.06em; text-transform:uppercase;}
-
-  .article-body-section{padding:0 0 100px;}
-  .article-hero-wrap{
-    width:100%; max-width:480px; height:640px; border-radius:var(--radius);
-    box-shadow:var(--shadow-soft); display:flex; align-items:center; justify-content:center;
-    margin:-70px auto 56px; position:relative; z-index:3; overflow:hidden;
-    background:linear-gradient(135deg,var(--green-700),var(--green-950));
-  }
-  .article-hero-wrap .placeholder-label{
-    color:rgba(255,255,255,0.75); font-family:'Poppins',sans-serif; font-weight:700; font-size:0.95rem;
-    letter-spacing:0.03em; display:flex; align-items:center; gap:10px; z-index:1;
-  }
-  .article-hero-img{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2;
-    transition:transform .5s ease;
-  }
-  .article-hero-wrap a{display:block; width:100%; height:100%; cursor:pointer;}
-  .article-hero-wrap:hover .article-hero-img{transform:scale(1.08);}
-  @media(max-width:640px){.article-hero-wrap{max-width:100%; height:420px; margin-top:-40px;}}
-  .article-content{max-width:720px; margin:0 auto; font-size:1.05rem; line-height:1.9; color:var(--ink-600);}
-  body.dark .article-content{color:#cfe0d3;}
-  .article-content p{margin:0 0 24px;}
-  .article-content p:first-of-type{
-    font-size:1.15rem; color:var(--ink-900); font-weight:500;
-  }
-  body.dark .article-content p:first-of-type{color:#eef3ee;}
 </style>
 </head>
 <body>
-<script>
-(function(){
-  if(localStorage.getItem('dlsjbc-theme') === 'dark'){
-    document.body.classList.add('dark');
-  }
-})();
-</script>
 <div id="scroll-progress"></div>
 <div class="cursor-dot" id="cursor-dot"></div>
 
@@ -583,10 +583,10 @@
 <div class="nav-links">
 <a href="home.html">Home</a>
 <a href="admission.html">Admission</a>
-<a href="about.html">About</a>
+<a class="active-link" href="about.html">About</a>
 <a href="contact.html">Contact</a>
 <a href="articles.html">Articles</a>
-<a class="active-link" href="news.html">News</a>
+<a href="news.html">News</a>
 </div>
 <div class="nav-actions">
 <button class="icon-btn" id="search-open" title="Search">🔍</button>
@@ -601,10 +601,10 @@
 <button class="menu-close" id="menu-close">✕</button>
 <a href="home.html">Home</a>
 <a href="admission.html">Admission</a>
-<a href="about.html">About</a>
+<a class="active-link" href="about.html">About</a>
 <a href="contact.html">Contact</a>
 <a href="articles.html">Articles</a>
-<a class="active-link" href="news.html">News</a>
+<a href="news.html">News</a>
 </div>
 
 <div id="search-panel">
@@ -612,67 +612,55 @@
 <input autofocus="" placeholder="Search programs, events, announcements…" type="text"/>
 </div>
 
-<section class="article-header">
-<div class="container">
-<a class="article-back" href="news.html">← Back to News</a>
-<span class="article-tag">Back to school</span>
-<h1 class="article-title">Balik Skwela Balik Pag-asa</h1>
-<span class="article-date">July 5, 2026</span>
-</div>
-</section>
 
-<section class="article-body-section">
-<div class="container">
-<div class="article-hero-wrap">
-<span class="placeholder-label">🖼️ Add your photo here (balik skwela.jpg)</span>
-<a href="news.html" title="Back to News"><img alt="DLSJBC Green Hawks clinch regional basketball title" class="article-hero-img" src="balik skwela.jpg" onerror="this.style.display='none'"/></a>
-</div>
-<div class="article-content">
-<p>Balik Eskwela, Balik Pag-asa!</p>
-<p>As another school year begins, let us come together to make a difference in the lives of our adopted communities and partners. Through our School Kits Donation Campaign, we can help equip young learners with the basic school supplies they need to return to school ready to learn, dream, and succeed.</p>
-<p>Together, We Pack Hope for Every Learner.</p>
-<p>We warmly invite all Lasallians, alumni, parents, employees, and friends of DLSJBC to share the gift of education by donating school kits until July 31, 2026.</p>
-<p>📍 Drop-off Points:</p>
-<p>• Social Action Office (College Area)</p>
-<p>• MDE Office, Admin Building (In front of the AVR)</p>
-<p>Every afternoon, 4:00 p.m. – 5:00 p.m.</p>
-<p>Every notebook, pencil, and school supply you give becomes a symbol of hope and a reminder that no child should be left behind in their educational journey.</p>
-<p>Together, let us inspire, empower, and uplift our young learners—because when we help a child return to school, we help build a brighter future for all.</p>
-<p>Animo La Salle! Education is hope in action. 💚🤍</p>
+<section class="hero" style="min-height:56vh; background-image:linear-gradient(180deg, rgba(7,39,26,0.75) 0%, rgba(11,61,36,0.75) 55%, rgba(15,82,48,0.8) 100%), url('images/hero-bg.jpg'); background-size:cover; background-position:center;">
+<div class="hero-grid"></div>
+<div class="hero-inner">
+<span class="eyebrow hero-eyebrow" style="opacity:1;">TESDA</span>
+<h1 style="color:#fdfcf7; font-size:clamp(2.2rem,5vw,3.6rem); opacity:1;">TESDA Diploma Programs</h1>
+<p class="hero-sub" style="opacity:1;">Technical-vocational diploma programs for skills-based, job-ready certification through TESDA.</p>
+<div class="hero-btns" style="opacity:1;">
+<a class="btn-primary btn-gold confetti-btn" href="contact.html">Apply Now</a>
+<a class="btn-outline" href="about.html#academics">← Back to Programs</a>
 </div>
 </div>
 </section>
 
-<section class="section-alt" id="events">
+<section id="programs-detail">
 <div class="container">
 <div class="section-head center">
-<span class="eyebrow">What's Coming Up</span>
-<h2>Events &amp; Academic Calendar</h2>
+<span class="eyebrow">Programs Offered</span>
+<h2>TESDA Diploma Programs</h2>
 </div>
-<div class="timeline">
-<div class="t-item" data-aos="fade-right">
-<div class="t-dot"></div>
-<span class="t-date">July 21, 2026</span>
-<h4>First Semester Orientation</h4>
-<p>Welcome program for new and returning students across all departments.</p>
+<div class="about-grid">
+<div class="card" data-aos="fade-up" data-aos-delay="0">
+<span class="num">Diploma</span>
+<h3>Information Technology</h3>
+<ul class="prog-list" style="margin-top:6px;">
+<li>Information Technology</li>
+</ul>
 </div>
-<div class="t-item" data-aos="fade-right" data-aos-delay="100">
-<div class="t-dot"></div>
-<span class="t-date">August 15, 2026</span>
-<h4>Foundation Week</h4>
-<p>A week-long celebration of DLSJBC's history, culture, and community spirit.</p>
+<div class="card" data-aos="fade-up" data-aos-delay="100">
+<span class="num">Diploma</span>
+<h3>Business Administration</h3>
+<ul class="prog-list" style="margin-top:6px;">
+<li>Business Administration</li>
+</ul>
 </div>
-<div class="t-item" data-aos="fade-right" data-aos-delay="200">
-<div class="t-dot"></div>
-<span class="t-date">September 8, 2026</span>
-<h4>Intramurals Opening Ceremony</h4>
-<p>Departments compete in sports, arts, and academic quiz bowls.</p>
+<div class="card" data-aos="fade-up" data-aos-delay="200">
+<span class="num">Diploma</span>
+<h3>Tourism & Hospitality</h3>
+<ul class="prog-list" style="margin-top:6px;">
+<li>Tourism Management</li>
+<li>Hospitality Management</li>
+</ul>
 </div>
-<div class="t-item" data-aos="fade-right" data-aos-delay="300">
-<div class="t-dot"></div>
-<span class="t-date">October 3, 2026</span>
-<h4>Midterm Examinations Begin</h4>
-<p>First round of assessments for all academic programs.</p>
+<div class="card" data-aos="fade-up" data-aos-delay="300">
+<span class="num">Diploma</span>
+<h3>Accountancy</h3>
+<ul class="prog-list" style="margin-top:6px;">
+<li>Accountancy</li>
+</ul>
 </div>
 </div>
 </div>
@@ -723,7 +711,6 @@
 </footer>
 
 <button id="back-top">↑</button>
-
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
@@ -925,6 +912,102 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = 'Message Sent ✓';
       btn.style.background = 'linear-gradient(135deg,#1a7d4a,#0f5230)';
       setTimeout(()=>{ btn.textContent = original; this.reset(); }, 2400);
+    });
+  }
+
+  // ===== Gallery Image Zoom (Lightbox) =====
+  const galleryItems = Array.from(document.querySelectorAll('.g-item'));
+  if (galleryItems.length) {
+    const lightbox = document.getElementById('lightbox');
+    const stage = document.getElementById('lightbox-stage');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption-text');
+    const lbCounter = document.getElementById('lightbox-counter');
+    const btnClose = document.getElementById('lightbox-close');
+    const btnPrev = document.getElementById('lightbox-prev');
+    const btnNext = document.getElementById('lightbox-next');
+
+    let currentIndex = 0;
+    let isZoomed = false;
+
+    function loadSlide(index){
+      currentIndex = (index + galleryItems.length) % galleryItems.length;
+      const item = galleryItems[currentIndex];
+      const caption = item.dataset.caption || '';
+      const src = item.dataset.src || '';
+      const bg = item.style.backgroundImage || getComputedStyle(item).background;
+
+      isZoomed = false;
+      lbImg.classList.remove('zoomed','show');
+
+      // Try the real photo first; fall back to the item's gradient swatch if it 404s
+      const testImg = new Image();
+      testImg.onload = () => {
+        lbImg.style.background = '';
+        lbImg.src = src;
+        requestAnimationFrame(()=>lbImg.classList.add('show'));
+      };
+      testImg.onerror = () => {
+        lbImg.removeAttribute('src');
+        lbImg.style.background = item.style.background || bg;
+        requestAnimationFrame(()=>lbImg.classList.add('show'));
+      };
+      testImg.src = src;
+
+      lbImg.alt = caption;
+      lbCaption.textContent = caption;
+      lbCounter.textContent = (currentIndex+1) + ' / ' + galleryItems.length;
+    }
+
+    function openLightbox(index){
+      loadSlide(index);
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      isZoomed = false;
+      lbImg.classList.remove('zoomed');
+      lbImg.style.transform = 'scale(1)';
+    }
+
+    galleryItems.forEach((item, i) => {
+      item.addEventListener('click', () => openLightbox(i));
+    });
+
+    btnClose.addEventListener('click', closeLightbox);
+    btnNext.addEventListener('click', (e)=>{ e.stopPropagation(); loadSlide(currentIndex+1); });
+    btnPrev.addEventListener('click', (e)=>{ e.stopPropagation(); loadSlide(currentIndex-1); });
+
+    // Click backdrop (not the stage) to close
+    lightbox.addEventListener('click', (e)=>{
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Click image to toggle zoom in/out
+    lbImg.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      isZoomed = !isZoomed;
+      lbImg.classList.toggle('zoomed', isZoomed);
+      lbImg.style.transform = isZoomed ? 'scale(2)' : 'scale(1)';
+    });
+
+    // Pan the zoomed image toward the cursor
+    stage.addEventListener('mousemove', (e)=>{
+      if(!isZoomed) return;
+      const rect = stage.getBoundingClientRect();
+      const px = ((e.clientX - rect.left) / rect.width) * 100;
+      const py = ((e.clientY - rect.top) / rect.height) * 100;
+      lbImg.style.transformOrigin = px+'% '+py+'%';
+    });
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e)=>{
+      if(!lightbox.classList.contains('open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowRight') loadSlide(currentIndex+1);
+      if(e.key === 'ArrowLeft') loadSlide(currentIndex-1);
     });
   }
 });
