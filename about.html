@@ -129,51 +129,6 @@
     box-shadow:0 0 8px rgba(201,162,74,0.6);
   }
 
-  /* ============ PAGE LOADER (Lasallian badge spin) ============ */
-  #page-loader{
-    position:fixed; inset:0; z-index:20000; background:var(--green-950);
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
-    transition:opacity .6s ease, visibility .6s ease;
-  }
-  #page-loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
-  .loader-badge{ width:118px; height:118px; position:relative; display:flex; align-items:center; justify-content:center; }
-  .loader-badge svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-  .loader-ring{
-    fill:none; stroke:var(--gold-500); stroke-width:2.5; stroke-linecap:round;
-    stroke-dasharray:210; stroke-dashoffset:210;
-    animation: loader-draw 1.8s ease-in-out infinite;
-    transform-origin:center;
-  }
-  .loader-ring-outer{
-    fill:none; stroke:rgba(201,162,74,0.22); stroke-width:1.5;
-  }
-  .loader-crest{
-    width:66px; height:66px; border-radius:50%; object-fit:contain;
-    background:#fdfcf7;
-    padding:8px;
-    box-shadow:0 0 0 1px rgba(201,162,74,0.3), 0 8px 26px -6px rgba(0,0,0,0.5);
-    animation: loader-crest-pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes loader-draw{
-    0%{stroke-dashoffset:210; transform:rotate(0deg);}
-    50%{stroke-dashoffset:60; transform:rotate(190deg);}
-    100%{stroke-dashoffset:210; transform:rotate(360deg);}
-  }
-  @keyframes loader-crest-pulse{
-    0%,100%{ transform:scale(0.96); filter:brightness(0.95); }
-    50%{ transform:scale(1.03); filter:brightness(1.08); }
-  }
-  .loader-text{
-    font-family:'Fraunces',serif; font-style:italic; color:var(--gold-300); font-size:0.92rem; letter-spacing:0.03em;
-    opacity:0; animation: loader-fade 1.6s ease-in-out infinite;
-    text-align:center;
-  }
-  @keyframes loader-fade{0%,100%{opacity:0.4;} 50%{opacity:1;}}
-  .loader-sub{
-    font-family:'Inter',sans-serif; color:rgba(232,207,154,0.55); font-size:0.68rem; letter-spacing:0.18em;
-    text-transform:uppercase; margin-top:4px; text-align:center;
-  }
-
   /* ============ GLASSMORPHIC NAVBAR ============ */
   .navbar{
     position:fixed; top:0; left:0; right:0; z-index:1000;
@@ -653,22 +608,6 @@
   }
 })();
 </script>
-
-<!-- Loading Animation -->
-<div id="page-loader">
-  <div class="loader-badge">
-    <svg viewBox="0 0 118 118">
-      <circle class="loader-ring-outer" cx="59" cy="59" r="52"></circle>
-      <circle class="loader-ring" cx="59" cy="59" r="52"></circle>
-    </svg>
-    <img class="loader-crest" src="logo.png" alt="DLSJBC Crest" onerror="this.style.display='none'"/>
-  </div>
-  <div>
-    <span class="loader-text" style="display:block;">De La Salle John Bosco College</span>
-    <span class="loader-sub">Mangagoy, Bislig City</span>
-  </div>
-</div>
-
 <div id="scroll-progress"></div>
 <div class="cursor-dot" id="cursor-dot"></div>
 
@@ -945,15 +884,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-  // ===== Page loader =====
-  window.addEventListener('load', () => {
-    setTimeout(()=>{
-      document.getElementById('page-loader').classList.add('hide');
-    }, 500);
-  });
-  // Fallback in case load event already fired / assets 404
-  setTimeout(()=>{ document.getElementById('page-loader').classList.add('hide'); }, 2500);
 
   // Custom cursor: single glowing dot, no ring
   const cDot = document.getElementById('cursor-dot');

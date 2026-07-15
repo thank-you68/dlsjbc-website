@@ -568,86 +568,7 @@
   body.dark .nav-links a.active-link{color:#fff;}
   #mobile-menu a.active-link{color:var(--gold-400);}
 
-
-  /* Loader — school crest as the hero, glass panel + entrance choreography */
-  #loader{
-    position:fixed; inset:0; z-index:10000;
-    background:radial-gradient(ellipse 90% 65% at 50% 32%, rgba(201,162,74,0.18), transparent 62%), var(--green-950);
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:22px;
-    transition:opacity .7s ease, visibility .7s ease;
-  }
-  #loader.hide{opacity:0; visibility:hidden;}
-  .loader-panel{
-    display:flex; flex-direction:column; align-items:center; gap:22px; padding:52px 60px;
-    background:rgba(255,255,255,0.06);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border:1px solid rgba(255,255,255,0.12); border-radius:28px;
-    box-shadow:0 30px 70px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
-    animation:panelIn .7s cubic-bezier(.2,.8,.2,1) both;
-  }
-  @keyframes panelIn{from{opacity:0; transform:scale(0.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
-  .loader-crest-wrap{position:relative; width:148px; height:148px; display:flex; align-items:center; justify-content:center;}
-  .loader-ring{position:absolute; inset:0; transform:rotate(-90deg);}
-  .loader-ring circle{fill:none; stroke-width:2.5;}
-  .loader-ring .track{stroke:rgba(232,207,154,0.14);}
-  .loader-ring .progress{
-    stroke:var(--gold-500); stroke-linecap:round;
-    stroke-dasharray:327; stroke-dashoffset:327;
-    animation:ringdraw 1.9s cubic-bezier(.45,0,.2,1) infinite;
-    transform-origin:center;
-  }
-  @keyframes ringdraw{
-    0%{stroke-dashoffset:327; transform:rotate(0deg);}
-    55%{stroke-dashoffset:60;}
-    100%{stroke-dashoffset:327; transform:rotate(360deg);}
-  }
-  /* Second, slower counter-rotating ring for depth */
-  .loader-ring-outer{position:absolute; inset:-14px; transform:rotate(90deg); opacity:0.5;}
-  .loader-ring-outer circle{fill:none; stroke-width:1.5; stroke:rgba(201,162,74,0.35); stroke-dasharray:2 10; stroke-linecap:round;}
-  .loader-ring-outer{animation:ringspin 6s linear infinite;}
-  @keyframes ringspin{to{transform:rotate(450deg);}}
-  .loader-logo-glow{
-    position:absolute; inset:10px; border-radius:50%;
-    background:radial-gradient(circle, rgba(201,162,74,0.35), transparent 70%);
-    animation:glowpulse 2.1s ease-in-out infinite;
-  }
-  @keyframes glowpulse{0%,100%{opacity:0.4; transform:scale(0.92);}50%{opacity:0.9; transform:scale(1.08);}}
-  .loader-logo{
-    width:92px; height:92px; object-fit:contain; position:relative; z-index:2;
-    animation:crestbreathe 2.1s ease-in-out infinite, logoEntrance .9s cubic-bezier(.2,.8,.2,1) both;
-  }
-  @keyframes crestbreathe{
-    0%,100%{transform:scale(1); filter:drop-shadow(0 0 14px rgba(201,162,74,0.4));}
-    50%{transform:scale(1.08); filter:drop-shadow(0 0 28px rgba(201,162,74,0.85));}
-  }
-  @keyframes logoEntrance{from{opacity:0; transform:scale(0.6) rotate(-15deg);} to{opacity:1; transform:scale(1) rotate(0deg);}}
-  .loader-progress-track{
-    width:180px; height:4px; border-radius:99px; background:rgba(255,255,255,0.12); overflow:hidden;
-  }
-  .loader-progress-bar{
-    width:40%; height:100%; border-radius:99px;
-    background:linear-gradient(90deg, var(--gold-400), var(--gold-500));
-    animation:loaderbar 1.6s cubic-bezier(.45,0,.2,1) infinite;
-  }
-  @keyframes loaderbar{
-    0%{transform:translateX(-100%);}
-    50%{transform:translateX(80%);}
-    100%{transform:translateX(280%);}
-  }
-  .loader-text{display:flex; flex-wrap:wrap; justify-content:center; max-width:280px;}
-  .loader-text span{
-    display:inline-block; color:var(--cream-100); font-family:'Poppins',sans-serif;
-    letter-spacing:0.16em; font-size:0.72rem; text-transform:uppercase;
-    opacity:0; transform:translateY(10px);
-    animation:loaderletter 1.8s ease infinite;
-  }
-  @keyframes loaderletter{
-    0%{opacity:0; transform:translateY(10px);}
-    18%{opacity:1; transform:translateY(0);}
-    75%{opacity:1; transform:translateY(0);}
-    100%{opacity:0; transform:translateY(-6px);}
-  }
+  /* Loader — removed */
 
   @media(max-width:640px){
     .filter-bar{flex-direction:column; align-items:stretch;}
@@ -666,18 +587,6 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div id="scroll-progress" role="progressbar" aria-label="Page scroll progress" aria-valuemin="0" aria-valuemax="100"></div>
 <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
-<div id="loader" role="status" aria-live="polite" aria-label="Loading page">
-<div class="loader-panel">
-<div class="loader-crest-wrap">
-<svg class="loader-ring-outer" viewBox="0 0 156 156" aria-hidden="true"><circle cx="78" cy="78" r="74"></circle></svg>
-<svg class="loader-ring" viewBox="0 0 128 128" aria-hidden="true"><circle class="track" cx="64" cy="64" r="52"></circle><circle class="progress" cx="64" cy="64" r="52"></circle></svg>
-<div class="loader-logo-glow" aria-hidden="true"></div>
-<img alt="De La Salle John Bosco College crest" class="loader-logo" src="logo.png"/>
-</div>
-<p class="loader-text" id="loader-text">De La Salle John Bosco College</p>
-<div class="loader-progress-track" aria-hidden="true"><div class="loader-progress-bar"></div></div>
-</div>
-</div>
 
 
 <nav class="navbar" id="navbar" aria-label="Primary">
@@ -950,13 +859,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Kinetic loader caption — letters cascade in while the crest breathes
-  const loaderText = document.getElementById('loader-text');
-  if (loaderText) {
-    const chars = loaderText.textContent.split('');
-    loaderText.innerHTML = chars.map((c,i)=>`<span style="animation-delay:${(i*0.045).toFixed(2)}s">${c===' '?'&nbsp;':c}</span>`).join('');
-  }
-
   // Kinetic typography — section headings split into words, revealed on scroll
   document.querySelectorAll('.section-head h2').forEach(h=>{
     const words = h.textContent.trim().split(/\s+/);
@@ -970,11 +872,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {threshold:0.4});
   document.querySelectorAll('.kinetic').forEach(el=>kineticObserver.observe(el));
 
-  // Loader
-  window.addEventListener('load', () => {
-    setTimeout(()=>document.getElementById('loader').classList.add('hide'), 500);
-  });
-  setTimeout(()=>document.getElementById('loader').classList.add('hide'), 1800);
 
 
   // Apply saved theme
