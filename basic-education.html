@@ -67,7 +67,7 @@
   body.dark .card{background:#0f2419; border-color:#1d3a2a; color:#eef3ee;}
   body.dark .navbar{background:rgba(8,23,18,0.75); border-color:#1d3a2a;}
   body.dark .section-alt{background:#0b1f16;}
-  body.dark .footer{background:#050f0a;}
+  body.dark .footer{background:var(--green-950); color:#cfe3d5; padding:14px 5% 10px; position:relative; overflow:hidden; font-size:0.68rem;}
   body.dark .muted{color:#a9bdae;}
   body.dark .line{border-color:#1d3a2a !important;}
 
@@ -290,15 +290,103 @@
   .node-label{font-size:0.78rem; font-weight:600; color:var(--ink-600); white-space:nowrap;}
   body.dark .node-label{color:#a9bdae;}
 
+  /* Stats strip */
+  .be-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin-bottom:80px;}
+  body.dark .be-stats{background:#1d3a2a; border-color:#1d3a2a;}
+  .be-stat{background:var(--cream-50); padding:32px 20px; text-align:center; transition:background .3s ease;}
+  body.dark .be-stat{background:#0f2419;}
+  .be-stat:hover{background:var(--cream-100);}
+  body.dark .be-stat:hover{background:#0b1f16;}
+  .be-stat-num{font-family:'Poppins',sans-serif; font-weight:900; font-size:2.2rem; color:var(--green-900); line-height:1;}
+  body.dark .be-stat-num{color:var(--gold-400);}
+  .be-stat-label{font-size:0.78rem; color:var(--ink-600); margin-top:8px; text-transform:uppercase; letter-spacing:0.05em;}
+  body.dark .be-stat-label{color:#a9bdae;}
+  @media(max-width:700px){.be-stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* Level tabs */
+  .be-tabs{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:44px;}
+  .be-tab{
+    padding:12px 26px; border-radius:999px; border:1.5px solid var(--line); background:transparent;
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:0.88rem; color:var(--ink-600);
+    cursor:pointer; transition:all .3s ease;
+  }
+  .be-tab:hover{border-color:var(--gold-500); color:var(--green-900);}
+  .be-tab.active{background:linear-gradient(135deg,var(--green-700),var(--green-900)); color:#fff; border-color:transparent; box-shadow:0 8px 20px -8px rgba(11,61,36,0.5);}
+  body.dark .be-tab{color:#cfe0d3; border-color:#1d3a2a;}
+  body.dark .be-tab.active{color:#fff;}
+
+  .be-panel{display:none;}
+  .be-panel.active{display:block; animation:beFadeIn .5s ease;}
+  @keyframes beFadeIn{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+
+  .be-panel-card{
+    background:var(--cream-50); border:1px solid var(--line); border-radius:24px; padding:48px;
+    display:grid; grid-template-columns:280px 1fr; gap:44px; align-items:start;
+    box-shadow:var(--shadow-soft); position:relative; overflow:hidden;
+  }
+  body.dark .be-panel-card{background:#0f2419; border-color:#1d3a2a;}
+  .be-panel-card::before{
+    content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, var(--panel-color, var(--gold-300)) 0%, transparent 70%); opacity:0.35;
+  }
+  @media(max-width:760px){.be-panel-card{grid-template-columns:1fr; padding:32px;}}
+
+  .be-panel-badge{
+    width:76px;height:76px; border-radius:22px; display:flex; align-items:center; justify-content:center;
+    font-size:2.1rem; background:var(--panel-color, var(--gold-400)); margin-bottom:20px;
+    box-shadow:0 10px 24px -10px rgba(11,61,36,0.5);
+  }
+  .be-panel-eyebrow{font-family:'Fraunces',serif; font-style:italic; color:var(--panel-color, var(--gold-500)); font-size:0.95rem;}
+  .be-panel-title{font-size:1.7rem; color:var(--green-950); margin:8px 0 14px;}
+  body.dark .be-panel-title{color:#eef3ee;}
+  .be-panel-desc{color:var(--ink-600); font-size:0.95rem; line-height:1.7;}
+  body.dark .be-panel-desc{color:#a9bdae;}
+
+  .be-grade-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:14px; position:relative; z-index:2;}
+  .be-grade{
+    background:var(--cream-100); border:1px solid var(--line); border-radius:14px; padding:18px 10px; text-align:center;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease; cursor:default;
+  }
+  body.dark .be-grade{background:#0b1f16; border-color:#1d3a2a;}
+  .be-grade:hover{transform:translateY(-6px); box-shadow:0 14px 28px -12px rgba(11,61,36,0.35); border-color:var(--panel-color, var(--gold-500));}
+  .be-grade-num{font-family:'Poppins',sans-serif; font-weight:800; font-size:1.3rem; color:var(--panel-color, var(--green-800));}
+  .be-grade-label{font-size:0.72rem; color:var(--ink-600); margin-top:4px;}
+  body.dark .be-grade-label{color:#a9bdae;}
+
+  .be-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px;}
+  .be-tag{
+    font-size:0.76rem; font-weight:600; padding:6px 14px; border-radius:999px;
+    background:rgba(201,162,74,0.12); color:var(--green-900); border:1px solid rgba(201,162,74,0.3);
+  }
+  body.dark .be-tag{color:#dab868; background:rgba(218,184,104,0.1); border-color:rgba(218,184,104,0.25);}
+
+  /* Why basic ed feature grid */
+  .be-why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:90px;}
+  @media(max-width:860px){.be-why-grid{grid-template-columns:1fr;}}
+  .be-why-card{
+    background:var(--cream-50); border:1px solid var(--line); border-radius:20px; padding:32px;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  body.dark .be-why-card{background:#0f2419; border-color:#1d3a2a;}
+  .be-why-card:hover{transform:translateY(-8px); box-shadow:var(--shadow-soft);}
+  .be-why-icon{
+    width:52px;height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; background:linear-gradient(135deg,var(--gold-400),var(--gold-500)); margin-bottom:18px;
+  }
+  .be-why-card h4{font-size:1.1rem; color:var(--green-950); margin-bottom:10px;}
+  body.dark .be-why-card h4{color:#eef3ee;}
+  .be-why-card p{font-size:0.88rem; color:var(--ink-600); line-height:1.6; margin:0;}
+  body.dark .be-why-card p{color:#a9bdae;}
+
   /* footer */
-  .footer{background:var(--green-950); color:#cfe3d5; padding:80px 5% 30px; position:relative; overflow:hidden;}
+  .footer{background:var(--green-950); color:#cfe3d5; padding:14px 5% 10px; position:relative; overflow:hidden; font-size:0.68rem;}
   .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; position:relative; z-index:2;}
   @media(max-width:860px){.footer-grid{grid-template-columns:repeat(2,1fr);}}
-  .footer h5{color:#fff; font-size:0.9rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px;}
+  .footer h5{color:#fff; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:4px;}
   .footer ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:11px;}
-  .footer a{font-size:0.9rem; color:#b7cabd; transition:color .25s ease;}
+  .footer a{font-size:0.66rem; color:#b7cabd; transition:color .25s ease; position:relative; display:inline-block;}
   .footer a:hover{color:var(--gold-400);}
-  .footer-bottom{border-top:1px solid rgba(255,255,255,0.1); margin-top:60px; padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:0.82rem; color:#94ac9b; position:relative; z-index:2;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.1); margin-top:6px; padding-top:5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px; font-size:0.6rem; color:#94ac9b; position:relative; z-index:2;}
   .wave{position:absolute; bottom:-1px; left:0; width:100%; opacity:0.06;}
 
   /* back to top */
@@ -374,7 +462,7 @@
 </div>
 
 
-<section class="hero" style="min-height:56vh; background-image:linear-gradient(180deg, rgba(7,39,26,0.75) 0%, rgba(11,61,36,0.75) 55%, rgba(15,82,48,0.8) 100%), url('images/hero-bg.jpg'); background-size:cover; background-position:center;">
+<section class="hero" style="min-height:56vh; background-image:linear-gradient(180deg, rgba(7,39,26,0.75) 0%, rgba(11,61,36,0.75) 55%, rgba(15,82,48,0.8) 100%), url('KIDS.png'); background-size:cover; background-position:center;">
 <div class="hero-grid"></div>
 <div class="hero-inner">
 <span class="eyebrow hero-eyebrow" style="opacity:1;">Basic Education</span>
@@ -395,47 +483,111 @@
 <p class="muted" style="margin-top:14px;">One continuous journey — from a child's first day of school to the threshold of senior high.</p>
 </div>
 
-<div class="growth-path">
-
-<div class="tier tier-kinder" data-aos="fade-up">
-<div class="tier-dot"></div>
-<span class="tier-eyebrow">Where it begins</span>
-<h3 class="tier-title">Kindergarten</h3>
-<div class="node-row">
-<div class="node">
-<div class="node-circle node-circle-lg">🧸</div>
-<span class="node-label">Kinder</span>
-</div>
-</div>
+<div class="be-stats" data-aos="fade-up">
+<div class="be-stat"><div class="be-stat-num">11</div><div class="be-stat-label">Grade Levels</div></div>
+<div class="be-stat"><div class="be-stat-num">3</div><div class="be-stat-label">Learning Tiers</div></div>
+<div class="be-stat"><div class="be-stat-num">1:25</div><div class="be-stat-label">Teacher Ratio</div></div>
+<div class="be-stat"><div class="be-stat-num">100%</div><div class="be-stat-label">Values-Based</div></div>
 </div>
 
-<div class="tier tier-elem" data-aos="fade-up">
-<div class="tier-dot"></div>
-<span class="tier-eyebrow">Building the basics</span>
-<h3 class="tier-title">Elementary · Grades 1–6</h3>
-<div class="node-row">
-<div class="node"><div class="node-circle">1</div><span class="node-label">Grade 1</span></div>
-<div class="node"><div class="node-circle">2</div><span class="node-label">Grade 2</span></div>
-<div class="node"><div class="node-circle">3</div><span class="node-label">Grade 3</span></div>
-<div class="node"><div class="node-circle">4</div><span class="node-label">Grade 4</span></div>
-<div class="node"><div class="node-circle">5</div><span class="node-label">Grade 5</span></div>
-<div class="node"><div class="node-circle">6</div><span class="node-label">Grade 6</span></div>
-</div>
+<div class="be-tabs" data-aos="fade-up">
+<button class="be-tab active" data-tab="kinder">🧸 Kindergarten</button>
+<button class="be-tab" data-tab="elem">📗 Elementary</button>
+<button class="be-tab" data-tab="junior">🎓 Junior High</button>
 </div>
 
-<div class="tier tier-junior" data-aos="fade-up">
-<div class="tier-dot"></div>
-<span class="tier-eyebrow">Preparing for senior high</span>
-<h3 class="tier-title">Junior High · Grades 7–10</h3>
-<div class="node-row">
-<div class="node"><div class="node-circle">7</div><span class="node-label">Grade 7</span></div>
-<div class="node"><div class="node-circle">8</div><span class="node-label">Grade 8</span></div>
-<div class="node"><div class="node-circle">9</div><span class="node-label">Grade 9</span></div>
-<div class="node"><div class="node-circle">10</div><span class="node-label">Grade 10</span></div>
+<div class="be-panel active" id="panel-kinder" data-aos="fade-up">
+<div class="be-panel-card" style="--panel-color:var(--gold-500);">
+<div>
+<div class="be-panel-badge">🧸</div>
+<span class="be-panel-eyebrow">Where it begins</span>
+<h3 class="be-panel-title">Kindergarten</h3>
+<p class="be-panel-desc">Play-based learning that nurtures curiosity, social skills, and a genuine love for school from day one.</p>
+</div>
+<div>
+<div class="be-grade-grid">
+<div class="be-grade"><div class="be-grade-num">K</div><div class="be-grade-label">Kinder</div></div>
+</div>
+<div class="be-tags">
+<span class="be-tag">Motor Skills</span>
+<span class="be-tag">Early Literacy</span>
+<span class="be-tag">Values Formation</span>
+<span class="be-tag">Play-Based</span>
+</div>
+</div>
 </div>
 </div>
 
+<div class="be-panel" id="panel-elem" data-aos="fade-up">
+<div class="be-panel-card" style="--panel-color:var(--green-600);">
+<div>
+<div class="be-panel-badge" style="background:var(--green-600);">📗</div>
+<span class="be-panel-eyebrow">Building the basics</span>
+<h3 class="be-panel-title">Elementary · Grades 1–6</h3>
+<p class="be-panel-desc">Core literacy, numeracy, and character formation, laying the groundwork for every subject that follows.</p>
 </div>
+<div>
+<div class="be-grade-grid">
+<div class="be-grade"><div class="be-grade-num">1</div><div class="be-grade-label">Grade 1</div></div>
+<div class="be-grade"><div class="be-grade-num">2</div><div class="be-grade-label">Grade 2</div></div>
+<div class="be-grade"><div class="be-grade-num">3</div><div class="be-grade-label">Grade 3</div></div>
+<div class="be-grade"><div class="be-grade-num">4</div><div class="be-grade-label">Grade 4</div></div>
+<div class="be-grade"><div class="be-grade-num">5</div><div class="be-grade-label">Grade 5</div></div>
+<div class="be-grade"><div class="be-grade-num">6</div><div class="be-grade-label">Grade 6</div></div>
+</div>
+<div class="be-tags">
+<span class="be-tag">Reading Fluency</span>
+<span class="be-tag">Math Foundations</span>
+<span class="be-tag">Science Discovery</span>
+<span class="be-tag">Filipino & English</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="be-panel" id="panel-junior" data-aos="fade-up">
+<div class="be-panel-card" style="--panel-color:var(--green-950);">
+<div>
+<div class="be-panel-badge" style="background:var(--green-950); color:#fff;">🎓</div>
+<span class="be-panel-eyebrow">Preparing for senior high</span>
+<h3 class="be-panel-title">Junior High · Grades 7–10</h3>
+<p class="be-panel-desc">Deeper subject mastery and guided exploration to help students choose the right senior high strand with confidence.</p>
+</div>
+<div>
+<div class="be-grade-grid">
+<div class="be-grade"><div class="be-grade-num">7</div><div class="be-grade-label">Grade 7</div></div>
+<div class="be-grade"><div class="be-grade-num">8</div><div class="be-grade-label">Grade 8</div></div>
+<div class="be-grade"><div class="be-grade-num">9</div><div class="be-grade-label">Grade 9</div></div>
+<div class="be-grade"><div class="be-grade-num">10</div><div class="be-grade-label">Grade 10</div></div>
+</div>
+<div class="be-tags">
+<span class="be-tag">Career Guidance</span>
+<span class="be-tag">Research Skills</span>
+<span class="be-tag">Leadership</span>
+<span class="be-tag">Strand Readiness</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="be-why-grid">
+<div class="be-why-card" data-aos="fade-up" data-aos-delay="0">
+<div class="be-why-icon">✝️</div>
+<h4>Faith-Centered</h4>
+<p>Every subject is taught within a Lasallian framework that shapes character alongside academics.</p>
+</div>
+<div class="be-why-card" data-aos="fade-up" data-aos-delay="100">
+<div class="be-why-icon">👥</div>
+<h4>Small Class Sizes</h4>
+<p>A low teacher-to-student ratio means every learner is known, guided, and supported individually.</p>
+</div>
+<div class="be-why-card" data-aos="fade-up" data-aos-delay="200">
+<div class="be-why-icon">🌱</div>
+<h4>Seamless Progression</h4>
+<p>A single continuous curriculum from Kinder to Grade 10 — no gaps, no surprises, just steady growth.</p>
+</div>
+</div>
+
 </div>
 </section>
 
@@ -557,6 +709,16 @@ document.addEventListener('DOMContentLoaded', () => {
     searchPanel.querySelector('input').focus();
   });
   document.getElementById('search-close').addEventListener('click', ()=>searchPanel.classList.remove('open'));
+
+  // Basic Education level tabs
+  document.querySelectorAll('.be-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.be-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.be-panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+    });
+  });
 
   // Confetti on any Apply button
   function confettiBurst(x,y){
